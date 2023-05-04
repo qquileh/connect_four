@@ -66,9 +66,8 @@ class Game:
         if player_id != self.turn:
             return 'Сейчас ход соперника...'
 
-        col = wanted_column
-        if self.is_valid_move(col):
-            row = self.get_next_open_row(col)
+        if self.is_valid_move(wanted_column):
+            row = self.get_next_open_row(wanted_column)
             chip = 0
             if self.turn == self.player_1_id:
                 chip = 1
@@ -76,7 +75,7 @@ class Game:
             else:
                 chip = 2
                 self.turn = self.player_1_id
-            self.drop_chip(row, col, chip)
+            self.drop_chip(row, wanted_column, chip)
             ans = "Сделан ход\n\n"
             ans += self.get_board()
             if self.winning_move(chip):

@@ -76,14 +76,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if flag:
         j = get_game(game_id)
         response = GAMES[j].make_a_move(wanted_column, player_id)
-        await context.bot.send_message(chat_id=GAMES[j].turn, text=response)
-        await context.bot.send_message(chat_id=GAMES[j].turn, text="Ваш ход...")
+        await update.message.reply_text(response)
         if response != 'Сейчас ход соперника...' and response != 'Невозможный ход. Попробуйте другой.':
-            await update.message.reply_text(response)
-        if GAMES[j].game_over:
-            PLAYER_TO_GAME.pop(GAMES[j].player_1_id)
-            PLAYER_TO_GAME.pop(GAMES[j].player_2_id)
-            GAMES.pop(j)
+            await context.bot.send_message(chat_id=GAMES[j].turn, text=response)
+            if GAMES[j].game_over:
+                PLAYER_TO_GAME.pop(GAMES[j].player_1_id)
+                PLAYER_TO_GAME.pop(GAMES[j].player_2_id)
+                GAMES.pop(j)
+            else:
+                await context.bot.send_message(chat_id=GAMES[j].turn, text="Ваш ход...")
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
