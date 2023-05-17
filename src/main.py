@@ -34,6 +34,8 @@ async def find_opponent_command(update: Update, context: ContextTypes.DEFAULT_TY
             PLAYER_TO_GAME.update({player_id: GAME_COUNTER, player_waiting_id: GAME_COUNTER})
             await context.bot.send_message(chat_id=player_waiting_id, text='Соперник найден. Игра начинается...\nВы '
                                                                            'ходите первым\n')
+            response = new_game.get_board()
+            await context.bot.send_message(chat_id=player_waiting_id, text=response)
             await context.bot.send_message(chat_id=player_waiting_id, text="Ваш ход...")
             await update.message.reply_text('Соперник найден. Игра начинается...')
     else:
