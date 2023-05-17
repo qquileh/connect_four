@@ -53,6 +53,13 @@ class Game:
                         self.board[r - 2][c + 2] == chip and self.board[r - 3][c + 3] == chip:
                     return True
 
+    def drawish_move(self, chip) -> bool:
+        for c in range(self.COLUMN_NUMBER):
+            for r in range(self.ROW_NUMBER):
+                if self.board[r][c] == 0:
+                    return False
+        return True
+
     def get_board(self):
         b = ""
         for r in range(self.ROW_NUMBER - 1, -1, -1):
@@ -80,6 +87,9 @@ class Game:
             ans += self.get_board()
             if self.winning_move(chip):
                 ans += f"\n\nИгрок {chip} победил!"
+                self.game_over = True
+            if self.drawish_move(chip):
+                ans += "\n\nНичья!"
                 self.game_over = True
             return ans
         else:
